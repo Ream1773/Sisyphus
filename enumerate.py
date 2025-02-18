@@ -14,14 +14,15 @@ class Enumeration:
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
 
-    def basics(self):
+    def basic_scans(self):
         print(f"{self.banner} Initial nmap scan started: {self.banner}")
         os.system('mkdir -p nmap')
         os.system(f"nmap -sC -sV {self.ip_addr} -oA nmap/{self.ip_addr}-basescan")
         
 
     def get_open_ports(self):
-        with open(f"{self.cwd}/nmap/{self.ip_addr}-basescan.gnmap", "r") as nmap_out:
+        os.system(f'nmap -p- --min-rate=1000 -T4 --open -oG {self.ip_addr}-fullscan')
+        with open(f"{self.cwd}/nmap/{self.ip_addr}-fullscan.gnmap", "r") as nmap_out:
             
             pass
 

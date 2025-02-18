@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import enumerate
+import sql_server_init
 from revshell import Generate
 import argparse
 from os import getuid, getcwd
@@ -55,4 +56,13 @@ if __name__ == '__main__':
         cwd = getcwd()
         args = parser.parse_args()
         banner()
-        enum_obj = enumerate.Enumeration(args.ip, cwd).basics()
+        # Initialize Database
+        sql_server_init.init_db()
+
+        enum_obj = enumerate.Enumeration(args.ip, cwd).basic_scans()
+        get_ports = input("Get open ports? y/n\n")
+        if get_ports == 'y':
+             ports = enumerate.Enumeration(args.ip, cwd).get_open_ports()
+        else:
+            pass
+
